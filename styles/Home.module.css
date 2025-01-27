@@ -1,0 +1,114 @@
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  background-color: #121212;
+  color: #fff;
+}
+
+
+.terminalTitle {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: #fbfbfb;
+}
+
+/* Container */
+.container {
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+  background-color: black;
+  padding: 10px;
+}
+
+.leftPanel,
+.rightPanel {
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.leftPanel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.rightPanel {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Code Editor Section */
+
+.controls {
+  display: flex;
+  justify-content: flex-end; 
+  gap: 10px; 
+  margin-bottom: 8px;
+}
+
+.runButton,
+.submitButton {
+  padding: 8px 16px;
+  background-color: #007acc;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.runButton:hover,
+.submitButton:hover {
+  background-color: #005a99;
+}
+
+/* Output Section */
+.outputSection {
+  background-color: #2a2a2a;
+  border-radius: 8px;
+  padding: 10px;
+  border: 1px solid #444;
+  color: #fff;
+}
+
+.terminalTitle {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.terminalOutput pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  overflow-y: auto;
+}
+
+/* Hover effects for all panels */
+.panel {
+  transition: background-color 0.3s ease-in-out;
+}
+
+.panel:hover {
+  background-color: #333;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .leftPanel,
+  .rightPanel {
+    padding: 5px;
+  }
+}

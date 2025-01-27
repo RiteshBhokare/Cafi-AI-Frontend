@@ -1,0 +1,17 @@
+
+.languageSelector {
+  margin-bottom: 10px; 
+}
+
+.languageSelector label {
+  margin-right: 10px; 
+  color: #fff; 
+}
+
+.languageSelector select {
+  padding: 5px;
+  border-radius: 4px;
+  border: #555;
+  background-color: #1e1e1e;
+  color: #bebcbc;
+}
