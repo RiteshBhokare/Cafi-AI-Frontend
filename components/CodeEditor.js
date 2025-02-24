@@ -32,7 +32,6 @@ const CodeEditor = ({ code, setCode, language, setLanguage, onRun, onSubmit }) =
         </div>
       </div>
       <Editor
-        height="400px"
         language={language}
         value={code}
         onChange={handleEditorChange}

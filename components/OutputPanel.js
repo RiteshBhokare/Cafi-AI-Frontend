@@ -11,20 +11,20 @@ const OutputPanel = ({ output }) => {
 
 const styles = {
   terminal: {
-    border: '2px solid #333',
+
     borderRadius: '8px',
     backgroundColor: '#1e1e1e',
     color: '#f5f5f5',
-    padding: '15px',
-    marginTop: '10px',
-    fontFamily: '"Roboto Condensed", serif',
-    // fontFamily: 'Arial, sans-serif',
+    padding: '50px',
+    // marginTop: '10px',
+  
+    fontFamily: 'Arial, sans-serif',
     fontWeight: '100',
     fontOpticalSizing: 'auto',
     
   },
   title: {
-    color: '#00ff00',
+    // color: '#00ff00',
     marginBottom: '10px',
   },
   outputText: {
