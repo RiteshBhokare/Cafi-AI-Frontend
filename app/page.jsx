@@ -34,14 +34,17 @@ export default function HomePage() {
 
   const onConnectButtonClicked = useCallback(async () => {
     const url = new URL(
-      process.env.NEXT_PUBLIC_CONN_DETAILS_ENDPOINT ??
-        "/api/connection-details",
+      process.env.NEXT_PUBLIC_CONN_DETAILS_ENDPOINT ?? "/api/connection-details",
       window.location.origin
     );
     const response = await fetch(url.toString());
     const connectionDetailsData = await response.json();
+
+
+
     updateConnectionDetails(connectionDetailsData);
   }, []);
+  
 
   const handleRunCode = async () => {
     console.log("Running code with language:", language);
@@ -52,7 +55,8 @@ export default function HomePage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ code, language }),
       });
-      
+
+
 
       if (!response.ok) {
         const errorText = await response.text(); // Get the response text for more details
@@ -105,18 +109,18 @@ export default function HomePage() {
         data-lk-theme="default"
         className="h-full grid content-center bg-[var(--lk-bg)]"
       >
-        <LiveKitRoom
-          token={connectionDetails?.participantToken}
-          serverUrl={connectionDetails?.serverUrl}
-          connect={connectionDetails !== undefined}
-          audio={true}
-          video={false}
-          onMediaDeviceFailure={onDeviceFailure}
-          onDisconnected={() => {
-            updateConnectionDetails(undefined);
-          }}
-          className="grid grid-rows-[2fr_1fr] items-center"
-        >
+<LiveKitRoom
+  token={connectionDetails?.participantToken}
+  serverUrl={connectionDetails?.serverUrl}
+  connect={connectionDetails !== undefined}
+  audio={true}
+  video={false}
+  onMediaDeviceFailure={onDeviceFailure}
+  onDisconnected={() => {
+    updateConnectionDetails(undefined);
+  }}
+  className="grid grid-rows-[2fr_1fr] items-center"
+>
           <SimpleVoiceAssistant onStateChange={setAgentState} />
           <ControlBar 
              onConnectButtonClicked={onConnectButtonClicked}

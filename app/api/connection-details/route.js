@@ -1,12 +1,10 @@
-import { AccessToken, VideoGrant } from "livekit-server-sdk";
+import { AccessToken } from "livekit-server-sdk";
 import { NextResponse } from "next/server";
 
-// NOTE: you are expected to define the following environment variables in `.env.local`:
 const API_KEY = process.env.LIVEKIT_API_KEY;
 const API_SECRET = process.env.LIVEKIT_API_SECRET;
 const LIVEKIT_URL = process.env.LIVEKIT_URL;
 
-// don't cache the results
 export const revalidate = 0;
 
 export async function GET() {
@@ -21,25 +19,23 @@ export async function GET() {
       throw new Error("LIVEKIT_API_SECRET is not defined");
     }
 
-    // Generate participant token
     const participantIdentity = `voice_assistant_user_${Math.floor(Math.random() * 10000)}`;
     const roomName = `voice_assistant_room_${Math.floor(Math.random() * 10000)}`;
-    const participantToken = createParticipantToken(
-      { identity: participantIdentity },
-      roomName
-    );
 
-    // Return connection details
+    // Await the token generation
+    const participantToken = await createParticipantToken({ identity: participantIdentity }, roomName);
+
     const data = {
       serverUrl: LIVEKIT_URL,
       roomName,
-      participantToken,
+      participantToken, // Now a valid string
       participantName: participantIdentity,
     };
 
     const headers = new Headers({
       "Cache-Control": "no-store",
     });
+    console.log("Generated token:", participantToken);
     return NextResponse.json(data, { headers });
   } catch (error) {
     console.error(error);
@@ -47,7 +43,8 @@ export async function GET() {
   }
 }
 
-function createParticipantToken(userInfo, roomName) {
+
+async function createParticipantToken(userInfo, roomName) {
   const at = new AccessToken(API_KEY, API_SECRET, {
     ...userInfo,
     ttl: "15m",
@@ -60,5 +57,8 @@ function createParticipantToken(userInfo, roomName) {
     canSubscribe: true,
   };
   at.addGrant(grant);
-  return at.toJwt();
+  // Await the token if toJwt() returns a promise
+  const token = await at.toJwt();
+  return token;
 }
+
