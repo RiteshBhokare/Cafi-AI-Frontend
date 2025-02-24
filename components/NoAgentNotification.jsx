@@ -1,43 +1,53 @@
 import { useEffect, useRef, useState } from "react";
 
-export function NoAgentNotification({ state }) {
+export function NoAgentNotification(props) {
   const timeToWaitMs = 10000;
   const timeoutRef = useRef(null);
   const [showNotification, setShowNotification] = useState(false);
   const agentHasConnected = useRef(false);
 
-  if (["listening", "thinking", "speaking"].includes(state) && !agentHasConnected.current) {
+  // If the agent has connected, we don't need to show the notification.
+  if (
+    ["listening", "thinking", "speaking"].includes(props.state) &&
+    agentHasConnected.current === false
+  ) {
     agentHasConnected.current = true;
   }
 
   useEffect(() => {
-    if (state === "connecting") {
-      timeoutRef.current = setTimeout(() => {
-        if (state === "connecting" && !agentHasConnected.current) {
+    if (props.state === "connecting") {
+      timeoutRef.current = window.setTimeout(() => {
+        if (props.state === "connecting" && agentHasConnected.current === false) {
           setShowNotification(true);
         }
       }, timeToWaitMs);
     } else {
       if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
+        window.clearTimeout(timeoutRef.current);
       }
       setShowNotification(false);
     }
 
     return () => {
       if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
+        window.clearTimeout(timeoutRef.current);
       }
     };
-  }, [state]);
+  }, [props.state]);
 
   return (
     <>
-      {showNotification && (
+      {showNotification ? (
         <div className="fixed text-sm left-1/2 max-w-[90vw] -translate-x-1/2 flex top-6 items-center gap-4 bg-[#1F1F1F] px-4 py-3 rounded-lg">
           <div>
             {/* Warning Icon */}
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
               <path
                 fillRule="evenodd"
                 clipRule="evenodd"
@@ -49,17 +59,32 @@ export function NoAgentNotification({ state }) {
           <p className="text-pretty w-max">
             It&apos;s quiet... too quiet. Is your agent lost? Ensure your agent is properly configured and running on your machine.
           </p>
-          <a href="https://docs.livekit.io/agents/quickstarts/s2s/" target="_blank" className="underline whitespace-nowrap">
+          <a
+            href="https://docs.livekit.io/agents/quickstarts/s2s/"
+            target="_blank"
+            className="underline whitespace-nowrap"
+          >
             View guide
           </a>
           <button onClick={() => setShowNotification(false)}>
             {/* Close Icon */}
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M3.16602 3.16666L12.8327 12.8333M12.8327 3.16666L3.16602 12.8333" stroke="#999999" strokeWidth="1.5" strokeLinecap="square" />
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M3.16602 3.16666L12.8327 12.8333M12.8327 3.16666L3.16602 12.8333"
+                stroke="#999999"
+                strokeWidth="1.5"
+                strokeLinecap="square"
+              />
             </svg>
           </button>
         </div>
-      )}
+      ) : null}
     </>
   );
 }
